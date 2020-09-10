@@ -19,7 +19,7 @@ from lightgbm import LGBMRegressor
 from yellowbrick.model_selection import RFECV
 from sklearn.feature_selection import RFE
 
-from geopy.distance import great_circle
+#from geopy.distance import great_circle
 #from math import nan # You can use None without importing anything.
 
 
@@ -167,8 +167,8 @@ class ExploreData():
                                                         feature_dtypes[self.number_of_missing_values_for_each_col.index.values],
                                                         self.number_of_missing_values_for_each_col.values):
                 print("{:48} {:21} {:21} ".format(feature_name, str(dtype), str(missing_value)), end="")
-                if detailed == 2:
-                    for v in self.data[feature_name].values[:8]:
+                if detailed != 0:
+                    for v in self.data[feature_name].values[:3]:
                         print(v, end=",")
                 print()            
         print("=" * 150)
@@ -183,7 +183,7 @@ class ExploreData():
             _, axs = plt.subplots(nrows=1, ncols=1, figsize=(8, 8))
     
             axs.hist(self.data[col])
-            axs.set_xlabel('price values')
+            axs.set_xlabel('binned values')
             axs.set_ylabel('frequency')
             address_and_name = os.getcwd() + '/Figures/Histogram' + str(col)
             plt.savefig(address_and_name)
@@ -279,8 +279,8 @@ class ObjectOrientedEDA(ExploreData, CleanData, PreprocessData):
     def explore_data_print_summary_info(self, detailed=0):             
         super(ObjectOrientedEDA, self).print_summary_info(detailed)
     
-    def explore_data_plot_histogram(self):
-        super(ObjectOrientedEDA, self).plot_histogram(['price'])
+    def plot_histogram_of_this_column(self, col):
+        super(ObjectOrientedEDA, self).plot_histogram([col])
     
     def clean_data(self):
         # Drop any col that has url in it
@@ -495,10 +495,12 @@ if __name__ == "__main__":
     working_df = read_df_select_rand_rows(df_address)
     
     objectOrientedEDA=ObjectOrientedEDA(working_df)
+   
     objectOrientedEDA.data.to_csv('Original'+'.csv', index=False)
     
     objectOrientedEDA.explore_data_print_summary_info(1)
-    
+    objectOrientedEDA.plot_histogram_of_this_column('price')
+    exit()
     objectOrientedEDA.clean_data()
     #objectOrientedEDA.explore_data_print_summary_info(1)
     
