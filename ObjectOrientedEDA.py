@@ -500,7 +500,7 @@ if __name__ == "__main__":
     
     objectOrientedEDA.explore_data_print_summary_info(1)
     objectOrientedEDA.plot_histogram_of_this_column('price')
-    exit()
+    
     objectOrientedEDA.clean_data()
     #objectOrientedEDA.explore_data_print_summary_info(1)
     
