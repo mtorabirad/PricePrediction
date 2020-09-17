@@ -376,12 +376,12 @@ class ObjectOrientedEDA(ExploreData, CleanData, PreprocessData):
 class FeatureSelection():
     def __init__(self, data):
         self.data = data  
-        #self.model = DecisionTreeRegressor()
+        self.model = DecisionTreeRegressor()
         #self.model = LGBMRegressor()
-        self.model = xgb.XGBRegressor()      
+        #self.model = xgb.XGBRegressor()      
         self.target = data[["price"]]
         self.selected_features = data.drop(["price"], axis=1)
-        self.num_features_to_select = 4
+        self.num_features_to_select = 5
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.selected_features, self.target, test_size=0.2, random_state=1)
         self.selected_features_name = None
         self._recursive_feature_elimination()
@@ -503,21 +503,24 @@ if __name__ == "__main__":
     
     objectOrientedEDA.clean_data()
     #objectOrientedEDA.explore_data_print_summary_info(1)
+    corr_matrix = abs(objectOrientedEDA.data.corr())
+    pd_series = corr_matrix['price'].sort_values(ascending=False)
+    print(pd_series[abs(pd_series) > 0.1])
     
+
     objectOrientedEDA.preprocess_data()
     #objectOrientedEDA.explore_data_print_summary_info(1)
     
     #objectOrientedEDA.data['distance'] = objectOrientedEDA.data.apply(lambda x: distance_to_mid(x.latitude, x.longitude), axis=1)
 
-    corr_matrix = objectOrientedEDA.data.corr()
-    corr_matrix = abs(corr_matrix)
-    pd_series = corr_matrix['price'].sort_values(ascending=False)
-    print(pd_series[pd_series > 0.05])
-    objectOrientedEDA.data.to_csv('Final'+'.csv', index=False)
-
+    
+    #objectOrientedEDA.data.to_csv('Final'+'.csv', index=False)
+    print(objectOrientedEDA.data.info)
+    
     FitandPredictObject = FitandPredict(objectOrientedEDA.data)
     
     #FitandPredictObject.tune_and_reset_hyperparameters()
    
     FitandPredictObject.fit_and_predict()
     exit("MTR Exit")
+   
