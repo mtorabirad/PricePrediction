@@ -522,5 +522,9 @@ if __name__ == "__main__":
     #FitandPredictObject.tune_and_reset_hyperparameters()
    
     FitandPredictObject.fit_and_predict()
+    from yellowbrick.regressor import ResidualsPlot                       
+    visualizer = ResidualsPlot(LinearRegression(), ax=axes, train_color='blue', test_color='black', train_alpha=0.2, test_alpha=0.8)
+    visualizer.fit()
+
     exit("MTR Exit")
    
