@@ -10,8 +10,6 @@ After cleaning/preprocessing the data, Exploratory Data Analysis (EDA) was perfo
 
 If you would like to run the notebook, first download the csv file (containing Airbnb listings.csv) and the set the variable "CSV_local_address" in the second cell of the notebook to the local addrress of the downloaded file.
 
-You can find a [detailed description of the project] (#Detailed Description) 
-
 ## Requirements
 Python 3.6 <br/>
 Scikit-learn<br/>
@@ -43,11 +41,9 @@ Different algorithms, including LR, DT, RF, XGBoost, and LGBoost were trained to
 
 ## Description of the code structure
 
-The notebook contains an object-oriented code, developed using Scikit-learn, that builds linear and tree-based regression models to predict Airbnb prices. The training dataset contained more than one-hundred features and twenty-thousand observations. The code first drops features that cannot possibly have any predictive value (for example, those containing URLs). It then performs Exploratory Data Analysis. 
+The notebook contains an object-oriented code, developed using Scikit-learn, that builds linear and tree-based regression models. The code consists of the following seven classes:
 
-The code consists of the following seven classes:
-
-CleanData: contains all the methods responsible for cleaning data, such as: replacing symbols, standardizing letters, and converting data types.
+<ins>CleanData<ins>: contains all the methods responsible for cleaning data, such as: replacing symbols, standardizing letters, and converting data types.
 ExploreData: contains methods responsible for exploring data such as printing summary information.
 PreprocessData: contains methods responsible for preprocessing data, such as encoding/scaling catagorical/numerical variables 
 
@@ -61,16 +57,19 @@ EvaluateTheModel: this class implements all the methods responsible for evaluati
 Performed feature engineering/selection, Grid Search hyper-parameter tuning, and statistical hypothesis testing.
 
 
-### Further Readings
-XGBoost: 
-    Original paper: https://arxiv.org/pdf/1603.02754.pdf
-    Documentation: https://xgboost.readthedocs.io/en/latest/
-    Nice blog post: https://machinelearningmastery.com/gentle-introduction-xgboost-applied-machine-learning/
+The training dataset contained more than one-hundred features and twenty-thousand observations. The code first drops features that cannot possibly have any predictive value (for example, those containing URLs). It then performs Exploratory Data Analysis. 
 
-LightGBM:
-    Original paper: https://www.microsoft.com/en-us/research/wp-content/uploads/2017/11/lightgbm.pdf
-    Documentation: https://lightgbm.readthedocs.io/en/latest/Features.html
-    A nice blog post: https://docs.microsoft.com/en-us/archive/blogs/machinelearning/lessons-learned-benchmarking-fast-machine-learning-algorithms
 
-Style: 
-    https://legacy.python.org/dev/peps/pep-0008/#other-recommendations
+### Further Readings 
+XGBoost: <br/>
+    Original paper: https://arxiv.org/pdf/1603.02754.pdf<br/>
+    Documentation: https://xgboost.readthedocs.io/en/latest/<br/>
+    Nice blog post: https://machinelearningmastery.com/gentle-introduction-xgboost-applied-machine-learning/<br/>
+
+LightGBM:<br/>
+    Original paper: https://www.microsoft.com/en-us/research/wp-content/uploads/2017/11/lightgbm.pdf<br/>
+    Documentation: https://lightgbm.readthedocs.io/en/latest/Features.html<br/>
+    A nice blog post: https://docs.microsoft.com/en-us/archive/blogs/machinelearning/lessons-learned-benchmarking-fast-machine-learning-algorithms<br/>
+
+Style: <br/>
+    https://legacy.python.org/dev/peps/pep-0008/#other-recommendations<br/>
