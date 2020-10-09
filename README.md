@@ -2,9 +2,7 @@
 
 ## Summary
 
-In this project, I have shown how to build different Machine Learning models to predict Airbnb prices. One of the motivations of the project is the following business question: "What dictates Airbnb rental price? The type of the property? The number of people it can accommodate? Distance from the center? Review score? Cancellation policy?" 
-
-After cleaning/preprocessing the data, Exploratory Data Analysis (EDA) was performed to identify outliers and possible inter-correlation between the features. Linear Regression (LR), Decision Tree (DT), Random Forest (RF), and boosting methods Xtreme Gradient Boosting (XGBoost) and Light Gradient Boosting (LGBoost) were trained. For LR, predictions were examined in detail and statistical hypothesis tests were performed to check whether the underlying assumptions of the model are satisfied or not. The key hyper-parameter controlling the accuracy of the DT and the ensemble methods were identified and tunned to maximize the R_squared test score. 
+In this project, I build different Machine Learning models to predict Airbnb prices. One of the motivations of the project is the following business question: "What dictates Airbnb rental price? The type of the property? The number of people it can accommodate? Distance from the center? Review score? Cancellation policy?" After cleaning/preprocessing the data, Exploratory Data Analysis (EDA) was performed to identify outliers and possible inter-correlation between the features. Linear Regression (LR), Decision Tree (DT), Random Forest (RF), and boosting methods Xtreme Gradient Boosting (XGBoost) and Light Gradient Boosting (LGBoost) were trained. For LR, predictions were examined in detail and statistical hypothesis tests were performed to check whether the underlying assumptions of the model are satisfied or not. For each model, the important features and the key hyper-parameters controling the performances were identified using, respectively, recursive feature elimination and grid Search. The accuracies and training times of different models are compared and suggestions are made to futher improve the R_squared test scores using text features. 
 
 ## Instructions to continue
 
@@ -43,22 +41,16 @@ Different algorithms, including LR, DT, RF, XGBoost, and LGBoost were trained to
 
 The notebook contains an object-oriented code, developed using Scikit-learn, that builds linear and tree-based regression models. The code consists of the following seven classes:
 
-<ins>CleanData<ins>: contains all the methods responsible for cleaning data, such as: replacing symbols, standardizing letters, and converting data types.
-ExploreData: contains methods responsible for exploring data such as printing summary information.
-PreprocessData: contains methods responsible for preprocessing data, such as encoding/scaling catagorical/numerical variables 
+<ins>CleanData</ins>: contains all the methods responsible for cleaning data, such as: replacing symbols, standardizing letters, and converting data types.
+<ins>ExploreData</ins>: contains methods responsible for exploring data such as printing summary information.
+PreprocessData</ins>: contains methods responsible for preprocessing data, such as encoding/scaling catagorical/numerical variables 
 
-EDA: This is the class that performs the actual explatory data analysis and it inherits the methods implemented in the above classes. 
+<ins>EDA</ins>: This is the class that performs the actual explatory data analysis and it inherits the methods implemented in the above classes. 
 
-SelectFeatures: An "abstraact" class that implements recursive feature elimination. 
-BuildModelAfterSelectingFeatures: This class inherits from the SelectFeatures class, performs the actual feature selection, builds the model, performs hyper-parameter tunning, and makes predictions.
+<ins>SelectFeatures</ins>: An "abstraact" class that implements recursive feature elimination. 
+<ins>BuildModelAfterSelectingFeatures</ins>: This class inherits from the SelectFeatures class, performs the actual feature selection, builds the model, performs hyper-parameter tunning, and makes predictions.
 
-EvaluateTheModel: this class implements all the methods responsible for evaluating different models, such as calculating RMSE and r2 scores and methods that check whether the underlying assumptions of linear regress are satisfied. 
-
-Performed feature engineering/selection, Grid Search hyper-parameter tuning, and statistical hypothesis testing.
-
-
-The training dataset contained more than one-hundred features and twenty-thousand observations. The code first drops features that cannot possibly have any predictive value (for example, those containing URLs). It then performs Exploratory Data Analysis. 
-
+<ins>EvaluateTheModel</ins>: this class implements all the methods responsible for evaluating different models, such as calculating RMSE and r2 scores and methods that check whether the underlying assumptions of linear regress are satisfied. 
 
 ### Further Readings 
 XGBoost: <br/>
