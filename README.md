@@ -1,4 +1,5 @@
 # Predicting Airbnb prices using different Machine Learning algorithms
+Work in progress! Please forgive lack of clarity, bugs, or typos.
 
 ## Summary
 
@@ -35,7 +36,7 @@ The next ensemble methods used were Xtreme Gradient Boosting (XGBoost) and Light
 
 ## Conclusions and future work
 
-Different algorithms, including LR, DT, RF, XGBoost, and LGBoost were trained to predict Airbnb rental prices. The highest R-squared test score (around 0.53) was obtained using the ensemble methods (RF, XGBoost, and LGBoost). Among the latter methods, XGBoost and LGBoost were found to be, respectively, thirty times faster to train than RF. The most important feature was found to be the room_type: entire home/apt or private room. The next most important feature for entire home/apts and private rooms were found to be, respectively, the number of people that can be accomodated and the distance from the city center. Althuogh the dataset used for training had 16 features, including features other than 'bathrooms', 'accommodates', 'cleaning_fee', 'room_type', 'distance' did not imporve the score. The score may be further improved by including text features that exist in the dataset in the form of comments or descriptions. This is left for a future project.
+Different algorithms, including LR, DT, RF, XGBoost, and LGBoost were trained to predict Airbnb rental prices. The highest R-squared test score (around 0.53) was obtained using the ensemble methods (RF, XGBoost, and LGBoost). Among the latter methods, XGBoost and LGBoost were found to be thirty times faster to train than RF. The most important feature was found to be the room_type: entire home/apt or private room. The next most important feature for entire home/apts and private rooms were found to be, respectively, the number of people that can be accomodated and the distance from the city center. Althuogh the dataset used for training had 16 features, including features other than 'bathrooms', 'accommodates', 'cleaning_fee', 'room_type', 'distance' did not imporve the scores. The scores may be further improved by including text features that exist in the dataset in the form of comments or descriptions. This is left for a future project.
 
 ## Description of the code structure
 
