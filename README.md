@@ -1,47 +1,52 @@
 # Predicting AirBnB prices
 Work in progress! Please accept my apologies for any lack of clarity, bug, or typo.
 
-## Background
+# Table of contents
+1. [Introduction](#Introduction)
+    1.1 [Background](#Background)
+    1.2 [Business problem statement](#Business%20problem%20statement)
+
+3. [Methods](#Methods)
+    3.1. [Exploratory Data Analysis](#Exploratory%20Data%20Analysis)
+    3.2. [ML Models: linear regression and tree-based models](#ML%20Models)
+    
+4. [Results](#Results) 
+    4.1. [Statistical hypothesis testing on linear regression results](#Statistical%20hypothesis%20tests)
+    4.2. [Business insights obtained from data](#Business%20insights%20obtained%20from%20data)
+
+## Introduction
+### Background
 
 After the 2008 financial crisis, the United States government created a new program that allowed institutional investors such as hedge and private-equity funds to directly purchase large quantities of foreclosed homes. Between 2011 and 2017, they purchased over 200,000 of these.  One of the challenges of purchasing such large portfolios of new assets is determining the appropriate valuation. During a similar time frame, a new technology company called AirBnB created a new platform that allowed owners of individual housing units to rent out spare rooms or entire units to compete against hotels. As this platform grew, it generated new data that could be used to value the types of housing units purchased by the institutional investors. The key to such valuations is a model that could accurately predict the price of an overnight stay.  This model could then be used to value these assets by a Discounted Cash Flow model. 
 
-## Business problem statement
+### Business problem statement
 
-The real estate market is down, and a hedge fund is considering purchasing and then renting housing units to make a profit in the short term while waiting for the market to bounce back before selling the units. I am tasked with determining: 1) how accurate can the price of overnight stays at AirBnb properties be predicted, and 2) what dictates the price? Property type? The number of people it can accommodate? Distance from the center? Review score? Cancellation policy?"
+The real estate market in the city of Toronto is down, and a hedge fund is considering purchasing and then renting housing units to make a profit in the short term while waiting for the market to bounce back before selling the units. I am tasked with determining: 1) how accurate can the price of overnight stays at AirBnb properties be predicted, and 2) what dictates the price? Property type? The number of people it can accommodate? Distance from the center? Review score? Cancellation policy?"
 
-# Table of contents
-1. [Introduction](#introduction)
-2. [Some paragraph](#paragraph1)
-    1. [Sub paragraph](#subparagraph1)
-3. [Another paragraph](#paragraph2)
+## Methods
 
-## This is the introduction <a name="introduction"></a>
-Some introduction text, formatted in heading 2 style
 
-## Some paragraph <a name="paragraph1"></a>
-The first paragraph text
+Linear Regression (LR), Decision Tree (DT), Random Forest (RF), and boosting methods Xtreme Gradient Boosting (XGBoost) and Light Gradient Boosting (LGBoost) were trained. 
 
-### Sub paragraph <a name="subparagraph1"></a>
-This is a sub paragraph, formatted in heading 3 style
+### Exploratory Data Analysis
 
-## Another paragraph <a name="paragraph2"></a>
-The second paragraph text
+Data was downloaded from "insideairbnb.com". The original dataset contains more than one-hundred features and twenty-thousand observations. Most of the features, however, cannot possibly have any predictive value (for example, those containing URLs). These features are dropped first. Then, after cleaning/preprocessing, Exploratory Data Analysis (EDA) is performed to identify correlated features and outliers.
+
+!["dominating_sets_example2"](CorrelationHeatmap.png)
+*Fig. 2: The minimum dominating set of a graph*
 
 
 
-## Summary
-
-After cleaning/preprocessing the data, Exploratory Data Analysis (EDA) was performed to identify outliers and possible inter-correlation between the features. Linear Regression (LR), Decision Tree (DT), Random Forest (RF), and boosting methods Xtreme Gradient Boosting (XGBoost) and Light Gradient Boosting (LGBoost) were trained. For LR, predictions were examined in detail and statistical hypothesis tests were performed to check whether the underlying assumptions of the model are satisfied or not. For each model, the important features and the key hyper-parameters controling the performances were identified using, respectively, recursive feature elimination and grid Search. The accuracies and training times of different models are compared and suggestions are made to futher improve the R_squared test scores. 
-
-## Detailed Description
-
-The downloaded dataset contains more than one-hundred features and twenty-thousand observations. However, most of the features cannot possibly have any predictive value (for example, those containing URLs). These features are dropped first and then Exploratory Data Analysis (EDA) is performed. In EDA, outliers are detected and handled using established statistical procedures. The presence of inter-correlations between the features are examined, confounded features are eliminated in favor of the confounder, and domain knowledge is used to engineer a new feature. 
+  and then . In EDA, outliers are detected and handled using established statistical procedures. The presence of inter-correlations between the features are examined, confounded features are eliminated in favor of the confounder, and domain knowledge is used to engineer a new feature. 
 
 Among the categorical features, those that contain a natural order are encoded using ordinal encoding, and the rest using pandas get_dummies. Because the data set was low-cardinality, there was no need to use more advanced encoding methods. Numerical features are scaled using the normalization method. Other scaling methods were also explored, but their influence on the results was found to be negligible. At the end of EDA, a hold-out set is prepared and set aside. 
 
+### ML Models
 Different ML models were explored. The first model is Linear Regression (LR). The predictions of LR are analyzed in detail to check whether they satisfy the four underlying assumptions of LR: errors should have 1) zero mean and 2) constant variance (homoskedastic) and be 3) uncorrelated and 4) normally distributed. The analysis shows that LR prediction errors are heteroskedastic and non-normal: two of the underlying assumptions are violated. Therefore, LR with ordinary least squares does not seem to be appropriate for the dataset in its current form. While there are methods to tackle the problems associated with violating the underlying assumptions, such as using weighted least squares or transforming the dataset, exploring those potential solutions is left for future projects and here we continue with tree-based regression models. Despite the violations in its underlying assumptions, LR was able to reach an R-squared score of about 0.42, and including more than seven features (out of fifteen) in training had virtually no impact on that score. 
 
 Next, tree-based models were explored. The first one was the decision tree. After tunning (with cross-validation) its hyper-parameters, it was found that the only hyper-parameter whose tunning had a significant impact on the prediction scores was the maximum depth. In tunning, the search space for a parameter contained at least three values and, through trial and error, it was ensured that the space is wide enough such that the final tunned value is lower/higher than (not equal to) the upper/lower bounds of the search space. The R-squared test score of the decision tree increased smoothly as the number of features increased from two to eight but then it saturated at 0.5 (twenty percent higher than LR). 
+
+## Business insights obtained from data
 
 Visualizing the tree revealed a business insight drawn from the data. It showed that, regardless of the number of selected features, the first split of the tree is based on whether the place is a private room or an entire home/apartment. For private rooms, the second split is based on the distance to the center. That means that for people who are looking for private rooms, the most important point is how far the room is from the center. For apartments, the second split is based on the number of people that the place can accommodate and not the distance. People who want to stay at an apartment will probably have a car too, so form them, the distance from the center is not as important. 
 
