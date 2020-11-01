@@ -2,13 +2,13 @@
 Work in progress! Please accept my apologies for any lack of clarity, bug, or typo.
 
 # Table of contents
-1. [Introduction](#Introduction)
-    1.1 [Background](#Background)
-    1.2 [Business problem statement](#Business%20problem%20statement)
+1. [Introduction](#Introduction)<br/>
+    1.1 [Background](#Background)<br/>
+    1.2 [Business problem statement](#Business%20problem%20statement)<br/>
 
-2. [Data preprocessing and Exploratory Data Analysis](#Data%20preprocessing%20and%20Exploratory%20Data%20Analysis)
-    2.1. [Feature scaling and engineering](#Feature%20scaling%20and%20engineering)
-    2.2. [Outliers and inter-correlation between features](#Outliers%20and%20inter-correlation%20between%20features)
+2. [Data preprocessing and Exploratory Data Analysis](#Data%20preprocessing%20and%20Exploratory%20Data%20Analysis)<br/>
+    2.1. [Feature scaling and engineering](#Feature%20scaling%20and%20engineering)<br/>
+    2.2. [Outliers and inter-correlation between features](#Outliers%20and%20inter-correlation%20between%20features)<br/>
 
 
 ## Introduction
@@ -25,6 +25,7 @@ The real estate market in the city of Toronto is down, and a hedge fund is consi
 Data was downloaded from "insideairbnb.com". The original dataset contained more than one-hundred features and twenty-thousand observations. Some of the features, however, did not have any predictive value (for example, those containing URLs), while some others had numerous (more than ninety percent) missing values for the price column. There were also text features (for example property description). These features can be expected to have some predictive value, but utilizing them would require sentiment analysis, which is beyond the scope of this project. Therefore, they were also dropped. The cleaned dataset contained features displayed below. I should also mention that the original dataset contained a 'square_feet' column; however, more than ninety percent of its values were missing so that column was also dropped. <br/>
 <br/>
 !["df_info"](Figures/df_info.png)
+
 <br/>
 
 ### Feature scaling and engineering
@@ -46,7 +47,7 @@ Linear Regression and different tree-based regression models were trained.
 
 #### Feature selection
 
-For all the trained models, features selection is performed using scikit learn's Recursive Feature Elimination (RFE) class. RFE fits a given model and then removes the least important feature. It then continues this process until the user-specified number of features, n_f, is reached. Each model is trained using different values of n_f to determine the minimum value at which the model reaches it maximum performance. 
+For all the trained models, features selection is performed using scikit learn's Recursive Feature Elimination (RFE) class. RFE first fits a given model using all the features and then removes the least important one. It then continues this process until the user-specified number of features, n_f, is reached. Each model is trained using different values of n_f to determine the minimum value at which the model reaches it maximum performance. 
 
 #### Hyper-parameter tunning
 The hyper-parameters of the tree-based models are tunned using scikit learn's GridSearchCV. The class takes a model, a hyper-parameter grid, and a cross-validation strategy (for example, K-fold). It then splits the data into K-folds and, for each point in the grid, calculates the test score for every split. The point that has the highest average test score (i.e., test score averaged over all the splits) determines the values of the tunned hyper-parameters. GridSearchCV was used instead of RandomizedSearchCV because I noticed that the number of hyper-parameters that had any noticeable impact on the performance is relatively low so performing an exhaustive search was still possible.
