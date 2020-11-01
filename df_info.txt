@@ -1,0 +1,24 @@
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 21166 entries, 0 to 21165
+Data columns (total 19 columns):
+price                     21166 non-null float32
+bedrooms                  21139 non-null float32
+bathrooms                 21156 non-null float32
+host_is_superhost         21164 non-null object
+host_identity_verified    21164 non-null object
+host_has_profile_pic      21164 non-null object
+host_listings_count       21164 non-null float32
+minimum_nights            21166 non-null float32
+maximum_nights            21166 non-null float32
+latitude                  21166 non-null float32
+longitude                 21166 non-null float32
+is_location_exact         21166 non-null object
+room_type                 21166 non-null object
+accommodates              21166 non-null float32
+beds                      20948 non-null float32
+cleaning_fee              17680 non-null float32
+extra_people              21166 non-null float32
+cancellation_policy       21166 non-null object
+review_scores_value       16630 non-null float32
+dtypes: float32(13), object(6)
+memory usage: 2.0+ MB

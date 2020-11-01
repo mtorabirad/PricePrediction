@@ -6,13 +6,10 @@ Work in progress! Please accept my apologies for any lack of clarity, bug, or ty
     1.1 [Background](#Background)
     1.2 [Business problem statement](#Business%20problem%20statement)
 
-3. [Methods](#Methods)
-    3.1. [Exploratory Data Analysis](#Exploratory%20Data%20Analysis)
-    3.2. [ML Models: linear regression and tree-based models](#ML%20Models)
-    
-4. [Results](#Results) 
-    4.1. [Statistical hypothesis testing on linear regression results](#Statistical%20hypothesis%20tests)
-    4.2. [Business insights obtained from data](#Business%20insights%20obtained%20from%20data)
+2. [Data preprocessing and Exploratory Data Analysis](#Data%20preprocessing%20and%20Exploratory%20Data%20Analysis)
+    2.1. [Feature scaling and engineering](#Feature%20scaling%20and%20engineering)
+    2.2. [Outliers and inter-correlation between features](#Outliers%20and%20inter-correlation%20between%20features)
+
 
 ## Introduction
 ### Background
@@ -23,26 +20,52 @@ After the 2008 financial crisis, the United States government created a new prog
 
 The real estate market in the city of Toronto is down, and a hedge fund is considering purchasing and then renting housing units to make a profit in the short term while waiting for the market to bounce back before selling the units. I am tasked with determining: 1) how accurate can the price of overnight stays at AirBnb properties be predicted, and 2) what dictates the price? Property type? The number of people it can accommodate? Distance from the center? Review score? Cancellation policy?"
 
-## Methods
+## Data preprocessing and Exploratory Data Analysis
+
+Data was downloaded from "insideairbnb.com". The original dataset contained more than one-hundred features and twenty-thousand observations. Some of the features, however, did not have any predictive value (for example, those containing URLs), while some others had numerous (more than ninety percent) missing values for the price column. There were also text features (for example property description). These features can be expected to have some predictive value, but utilizing them would require sentiment analysis, which is beyond the scope of this project. Therefore, they were also dropped. The cleaned dataset contained features displayed below. I should also mention that the original dataset contained a 'square_feet' column; however, more than ninety percent of its values were missing so that column was also dropped. <br/>
+<br/>
+!["df_info"](df_info.png)
+<br/>
+
+### Feature scaling and engineering
+
+Among the categorical features, 'room_type' and 'cancellation_policy' are encoded using ordinal encoding because they can be reasonably expected to have a natural order with respect to the price (for example, a property with a more flexible cancelation is likely to have a higher price). The other categorical features are encoded using get_dummies. More advanced encoding methods were not used because the data set was low-cardinality. 
+
+Numerical features were scaled using normalization. Among the ML models that are trained, only the Linear Regression (and not the tree-based models) can be, to some extent, influenced by the choice of the scaling method. I tried standardization method as well and noticed that it gives virtually the same result as normalization.  
+
+The dataset contains latitude and longitude features. It can be reasonably expected that the distance of a property to the city center is more important in predicting the price than its latitude or longitude. Therefore, the latter features are used to engineer a new distance feature and then dropped.
+
+### Outliers and inter-correlation between features
+
+Exploratory Data Analysis (EDA) was performed on the cleaned and preprocessed dataset to identify outliers and to inspect the inter-correlation between features. The box-and-whisker diagrams and Inter Quartile Range (IQR) method were used to identify the major outliers: points that fall beyond the outer upper fence, which is the Q3 + 3*IQR. The method is used instead of more complex methods, such as DBSCAN and Isolation Forests, due to its simplicity and instead of the Z-score method because the latter method assumes Gaussian distribution of the underlying data. The outliers were eliminated because they corresponded to less than fifteen percent of the observations and I noticed that keeping them severely deteriorates the performance of the models.
+
+Analysing the inter-correlation (i.e., pairwise correlation) between the features shows that there is a strong correlation between features 'accommodates', 'bedrooms' (with Pearson correlation coefficient 0.7) and between features 'accommodates', 'bed' (with coefficient 0.79), which indicates that these features contain redundant information. Among these features, only 'accommodates' is kept because that feature can be expected to have a more direct relationship with the target variable price than the two other features. 
+
+### Building the models
+Linear Regression and different tree-based regression models were trained. 
+
+#### Feature selection
+
+For all the trained models, features selection is performed using scikit learn's Recursive Feature Elimination (RFE) class. RFE fits a given model and then removes the least important feature. It then continues this process until the user-specified number of features, n_f, is reached. Each model is trained using different values of n_f to determine the minimum value at which the model reaches it maximum performance. 
+
+#### Hyper-parameter tunning
+The hyper-parameters of the tree-based models are tunned using scikit learn's GridSearchCV. The class takes a model, a hyper-parameter grid, and a cross-validation strategy (for example, K-fold). It then splits the data into K-folds and, for each point in the grid, calculates the test score for every split. The point that has the highest average test score (i.e., test score averaged over all the splits) determines the values of the tunned hyper-parameters. GridSearchCV was used instead of RandomizedSearchCV because I noticed that the number of hyper-parameters that had any noticeable impact on the performance is relatively low so performing an exhaustive search was still possible.
+
+### Results
+
+#### Linear Regression (LR)
+
+The first trained model is a Linear Regression (LR) with coefficients determined using Ordinary Least Squares. This model is trained as a baseline so that predictions of the tree-based models can be compared against it. Any LR model should satisfy the following four assumptions: errors should have a 1) zero mean and 2) constant variance (homoskedastic) and should be 3) uncorrelated and 4) normally distributed. The predicted prices as a function of the actual prices for the training and test datasets and the Root Mean Squared Error (RMSE) and R2 score of the LR model on the train, test, and holtout sets are displayed below
+
+!["LinearRegressionActualvsPredicted"](Figures/LinearRegressionActualvsPredicted.png)
+!["LRScores"](Figures/LRScores.png)
+
+It can be seen that the model generalizes reasonably well to the test and holdout sets. To examine this assumption....
 
 
-Linear Regression (LR), Decision Tree (DT), Random Forest (RF), and boosting methods Xtreme Gradient Boosting (XGBoost) and Light Gradient Boosting (LGBoost) were trained. 
+The analysis shows that LR prediction errors are heteroskedastic and non-normal: two of the underlying assumptions are violated. 
 
-### Exploratory Data Analysis
-
-Data was downloaded from "insideairbnb.com". The original dataset contains more than one-hundred features and twenty-thousand observations. Most of the features, however, cannot possibly have any predictive value (for example, those containing URLs). These features are dropped first. Then, after cleaning/preprocessing, Exploratory Data Analysis (EDA) is performed to identify correlated features and outliers.
-
-!["dominating_sets_example2"](CorrelationHeatmap.png)
-*Fig. 2: The minimum dominating set of a graph*
-
-
-
-  and then . In EDA, outliers are detected and handled using established statistical procedures. The presence of inter-correlations between the features are examined, confounded features are eliminated in favor of the confounder, and domain knowledge is used to engineer a new feature. 
-
-Among the categorical features, those that contain a natural order are encoded using ordinal encoding, and the rest using pandas get_dummies. Because the data set was low-cardinality, there was no need to use more advanced encoding methods. Numerical features are scaled using the normalization method. Other scaling methods were also explored, but their influence on the results was found to be negligible. At the end of EDA, a hold-out set is prepared and set aside. 
-
-### ML Models
-Different ML models were explored. The first model is Linear Regression (LR). The predictions of LR are analyzed in detail to check whether they satisfy the four underlying assumptions of LR: errors should have 1) zero mean and 2) constant variance (homoskedastic) and be 3) uncorrelated and 4) normally distributed. The analysis shows that LR prediction errors are heteroskedastic and non-normal: two of the underlying assumptions are violated. Therefore, LR with ordinary least squares does not seem to be appropriate for the dataset in its current form. While there are methods to tackle the problems associated with violating the underlying assumptions, such as using weighted least squares or transforming the dataset, exploring those potential solutions is left for future projects and here we continue with tree-based regression models. Despite the violations in its underlying assumptions, LR was able to reach an R-squared score of about 0.42, and including more than seven features (out of fifteen) in training had virtually no impact on that score. 
+Therefore, LR with ordinary least squares does not seem to be appropriate for the dataset in its current form. While there are methods to tackle the problems associated with violating the underlying assumptions, such as using weighted least squares or transforming the dataset, exploring those potential solutions is left for future projects and here we continue with tree-based regression models. Despite the violations in its underlying assumptions, LR was able to reach an R-squared score of about 0.42, and including more than seven features (out of fifteen) in training had virtually no impact on that score. 
 
 Next, tree-based models were explored. The first one was the decision tree. After tunning (with cross-validation) its hyper-parameters, it was found that the only hyper-parameter whose tunning had a significant impact on the prediction scores was the maximum depth. In tunning, the search space for a parameter contained at least three values and, through trial and error, it was ensured that the space is wide enough such that the final tunned value is lower/higher than (not equal to) the upper/lower bounds of the search space. The R-squared test score of the decision tree increased smoothly as the number of features increased from two to eight but then it saturated at 0.5 (twenty percent higher than LR). 
 
