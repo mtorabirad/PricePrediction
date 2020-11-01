@@ -6,16 +6,20 @@ Work in progress! Please accept my apologies for any lack of clarity, bug, or ty
     1.1 [Background](#Background)<br/>
     1.2 [Business problem statement](#Business%20problem%20statement)<br/>
 
-2. [Data preprocessing and Exploratory Data Analysis](#Data%20preprocessing%20and%20Exploratory%20Data%20Analysis)<br/>
-    2.1. [Feature scaling and engineering](#Feature%20scaling%20and%20engineering)<br/>
-    2.2. [Outliers and inter-correlation between features](#Outliers%20and%20inter-correlation%20between%20features)<br/>
+2. [Summary](#Summary)<br/>
+3. [Data preprocessing and Exploratory Data Analysis](#Data%20preprocessing%20and%20Exploratory%20Data%20Analysis)<br/>
+    3.1. [Feature scaling and engineering](#Feature%20scaling%20and%20engineering)<br/>
+    3.2. [Outliers and inter-correlation between features](#Outliers%20and%20inter-correlation%20between%20features)<br/>
 
-3. [Building the models](#Building%20the%20models)<br/>
-   3.1 [Feature selection](#Feature%20selection)<br/>
-   3.2 [Hyper-parameter tunning](#Hyper-parameter%20tunning)<br/>
+4. [Building the models](#Building%20the%20models)<br/>
+   4.1 [Feature selection](#Feature%20selection)<br/>
+   4.2 [Hyper-parameter tunning](#Hyper-parameter%20tunning)<br/>
 
-4. [Results](#Results)<br/>
-   4.1 [Linear Regression (LR)](#Linear%20Regression%20(LR))
+5. [Results](#Results)<br/>
+   5.1 [Linear Regression (LR)](#Linear%20Regression%20(LR))
+   5.2 [Tree-based Regression Models](#Tree-based%20Regression%20Models)
+
+6. 
 
 ## Introduction
 ### Background
@@ -25,6 +29,8 @@ After the 2008 financial crisis, the United States government created a new prog
 ### Business problem statement
 
 The real estate market in the city of Toronto is down, and a hedge fund is considering purchasing and then renting housing units to make a profit in the short term while waiting for the market to bounce back before selling the units. I am tasked with determining: 1) how accurate can the price of overnight stays at AirBnb properties be predicted, and 2) what dictates the price? Property type? The number of people it can accommodate? Distance from the center? Review score? Cancellation policy?"
+
+## Summary
 
 ## Data preprocessing and Exploratory Data Analysis
 
