@@ -24,7 +24,7 @@ The real estate market in the city of Toronto is down, and a hedge fund is consi
 
 Data was downloaded from "insideairbnb.com". The original dataset contained more than one-hundred features and twenty-thousand observations. Some of the features, however, did not have any predictive value (for example, those containing URLs), while some others had numerous (more than ninety percent) missing values for the price column. There were also text features (for example property description). These features can be expected to have some predictive value, but utilizing them would require sentiment analysis, which is beyond the scope of this project. Therefore, they were also dropped. The cleaned dataset contained features displayed below. I should also mention that the original dataset contained a 'square_feet' column; however, more than ninety percent of its values were missing so that column was also dropped. <br/>
 <br/>
-!["df_info"](df_info.png)
+!["df_info"](Figures/df_info.png)
 <br/>
 
 ### Feature scaling and engineering
@@ -39,7 +39,7 @@ The dataset contains latitude and longitude features. It can be reasonably expec
 
 Exploratory Data Analysis (EDA) was performed on the cleaned and preprocessed dataset to identify outliers and to inspect the inter-correlation between features. The box-and-whisker diagrams and Inter Quartile Range (IQR) method were used to identify the major outliers: points that fall beyond the outer upper fence, which is the Q3 + 3*IQR. The method is used instead of more complex methods, such as DBSCAN and Isolation Forests, due to its simplicity and instead of the Z-score method because the latter method assumes Gaussian distribution of the underlying data. The outliers were eliminated because they corresponded to less than fifteen percent of the observations and I noticed that keeping them severely deteriorates the performance of the models.
 
-Analysing the inter-correlation (i.e., pairwise correlation) between the features shows that there is a strong correlation between features 'accommodates', 'bedrooms' (with Pearson correlation coefficient 0.7) and between features 'accommodates', 'bed' (with coefficient 0.79), which indicates that these features contain redundant information. Among these features, only 'accommodates' is kept because that feature can be expected to have a more direct relationship with the target variable price than the two other features. 
+Analysing the inter-correlation (i.e., pairwise correlation) between the features shows that there is a strong correlation between features 'accommodates', 'bedrooms' (with Pearson correlation coefficient 0.7) and between features 'accommodates', 'bed' (with coefficient 0.79), which indicates that they contain redundant information. Among these features, only 'accommodates' is kept because that feature can be expected to have a more direct relationship with the target variable price than the two other features. 
 
 ### Building the models
 Linear Regression and different tree-based regression models were trained. 
