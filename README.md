@@ -64,7 +64,7 @@ The hyper-parameters of the tree-based models are tunned using scikit learn's Gr
 
 The first trained model is a Linear Regression (LR) with coefficients determined using Ordinary Least Squares. This model is trained as a baseline so that predictions of the tree-based models can be compared against it. Any LR model should satisfy the following four assumptions: errors should have a 1) zero mean and 2) constant variance (homoskedastic) and should be 3) uncorrelated and 4) normally distributed. The predicted prices as a function of the actual prices for the training and test datasets and the Root Mean Squared Error (RMSE) and R2 score of the LR model on the train, test, and holtout sets are displayed below
 
-!["LinearRegressionActualvsPredicted"](Figures/LinearRegressionActualvsPredicted.png)
+!["LinearRegressionActualvsPredicted"](Figures/LinearRegressionActualvsPredicted.png)<br/>
 !["LRScores"](Figures/LRScores.png)
 
 It can be seen that the model generalizes reasonably well to the test and holdout sets. To examine this assumption....
