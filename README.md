@@ -1,7 +1,7 @@
 # Predicting AirBnB prices
 Work in progress! Please accept my apologies for any lack of clarity, bug, or typo.
 
-# Table of contents
+## Table of contents
 1. [Introduction](#Introduction)<br/>
     1.1 [Background](#Background)<br/>
     1.2 [Business problem statement](#Business%20problem%20statement)<br/>
@@ -10,6 +10,12 @@ Work in progress! Please accept my apologies for any lack of clarity, bug, or ty
     2.1. [Feature scaling and engineering](#Feature%20scaling%20and%20engineering)<br/>
     2.2. [Outliers and inter-correlation between features](#Outliers%20and%20inter-correlation%20between%20features)<br/>
 
+3. [Building the models](#Building%20the%20models)<br/>
+   3.1 [Feature selection](#Feature%20selection)<br/>
+   3.2 [Hyper-parameter tunning](#Hyper-parameter%20tunning)<br/>
+
+4. [Results](#Results)<br/>
+   4.1 [Linear Regression (LR)](#Linear%20Regression%20(LR))
 
 ## Introduction
 ### Background
@@ -42,19 +48,19 @@ Exploratory Data Analysis (EDA) was performed on the cleaned and preprocessed da
 
 Analysing the inter-correlation (i.e., pairwise correlation) between the features shows that there is a strong correlation between features 'accommodates', 'bedrooms' (with Pearson correlation coefficient 0.7) and between features 'accommodates', 'bed' (with coefficient 0.79), which indicates that they contain redundant information. Among these features, only 'accommodates' is kept because that feature can be expected to have a more direct relationship with the target variable price than the two other features. 
 
-### Building the models
+## Building the models
 Linear Regression and different tree-based regression models were trained. 
 
-#### Feature selection
+### Feature selection
 
 For all the trained models, features selection is performed using scikit learn's Recursive Feature Elimination (RFE) class. RFE first fits a given model using all the features and then removes the least important one. It then continues this process until the user-specified number of features, n_f, is reached. Each model is trained using different values of n_f to determine the minimum value at which the model reaches it maximum performance. 
 
-#### Hyper-parameter tunning
+### Hyper-parameter tunning
 The hyper-parameters of the tree-based models are tunned using scikit learn's GridSearchCV. The class takes a model, a hyper-parameter grid, and a cross-validation strategy (for example, K-fold). It then splits the data into K-folds and, for each point in the grid, calculates the test score for every split. The point that has the highest average test score (i.e., test score averaged over all the splits) determines the values of the tunned hyper-parameters. GridSearchCV was used instead of RandomizedSearchCV because I noticed that the number of hyper-parameters that had any noticeable impact on the performance is relatively low so performing an exhaustive search was still possible.
 
-### Results
+## Results
 
-#### Linear Regression (LR)
+### Linear Regression (LR)
 
 The first trained model is a Linear Regression (LR) with coefficients determined using Ordinary Least Squares. This model is trained as a baseline so that predictions of the tree-based models can be compared against it. Any LR model should satisfy the following four assumptions: errors should have a 1) zero mean and 2) constant variance (homoskedastic) and should be 3) uncorrelated and 4) normally distributed. The predicted prices as a function of the actual prices for the training and test datasets and the Root Mean Squared Error (RMSE) and R2 score of the LR model on the train, test, and holtout sets are displayed below
 
@@ -70,7 +76,7 @@ Therefore, LR with ordinary least squares does not seem to be appropriate for th
 
 Next, tree-based models were explored. The first one was the decision tree. After tunning (with cross-validation) its hyper-parameters, it was found that the only hyper-parameter whose tunning had a significant impact on the prediction scores was the maximum depth. In tunning, the search space for a parameter contained at least three values and, through trial and error, it was ensured that the space is wide enough such that the final tunned value is lower/higher than (not equal to) the upper/lower bounds of the search space. The R-squared test score of the decision tree increased smoothly as the number of features increased from two to eight but then it saturated at 0.5 (twenty percent higher than LR). 
 
-## Business insights obtained from data
+## Business insights obtained from the data
 
 Visualizing the tree revealed a business insight drawn from the data. It showed that, regardless of the number of selected features, the first split of the tree is based on whether the place is a private room or an entire home/apartment. For private rooms, the second split is based on the distance to the center. That means that for people who are looking for private rooms, the most important point is how far the room is from the center. For apartments, the second split is based on the number of people that the place can accommodate and not the distance. People who want to stay at an apartment will probably have a car too, so form them, the distance from the center is not as important. 
 
