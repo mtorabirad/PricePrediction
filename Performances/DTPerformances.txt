@@ -1,0 +1,5 @@
+first try to calc self.model_residuals_train failed. Trying another method
+RMSE_train: 0.1246
+r2_train: 0.526
+RMSE_test: 0.1296
+r2_test: 0.4631
