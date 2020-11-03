@@ -3,7 +3,6 @@
     1.1 [Background](#Background)<br/>
     1.2 [Business problem statement](#Business%20problem%20statement)<br/>
 
-
 2. [Data preprocessing and Exploratory Data Analysis](#Data%20preprocessing%20and%20Exploratory%20Data%20Analysis)<br/>
    1. [Feature scaling and engineering](#Feature%20scaling%20and%20engineering)<br/>
    2. [Outliers and inter-correlation between features](#Outliers%20and%20inter-correlation%20between%20features)<br/>
@@ -73,7 +72,7 @@ The predicted prices as a function of the actual prices for the training and tes
 
 !["LinearRegressionActualvsPredicted"](Figures/LinearRegressionActualvsPredicted.png)<br/>
 
-!["LRPerformances"](Figures/LRPerformances.png)<br/>
+!["LRPerformances"](Performances/LRPerformances.png)<br/>
 
 It can be seen that the R2 scores on training, test, and holdout sets are essentially equal, which shows that the model generalizes very well. <br/>
 
