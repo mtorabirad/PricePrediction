@@ -20,6 +20,6 @@ seaborn<br/>
 scipy<br/>
 statsmodels
 
-## Instructions to re-run he code
+## Instructions to re-run the code
 
 If you would like to run the notebook, first download the csv file (containing Airbnb listings.csv) and then set the variable "CSV_local_address" in the second cell of the notebook to the local addrress of the downloaded file.
