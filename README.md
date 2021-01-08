@@ -1,12 +1,25 @@
 # Predicting AirBnB prices
-Work in progress! Please accept my apologies for any lack of clarity, bug, or typo.<br/>
 
-Files:<br/>
-Writeup.md:         writeup about the project<br/>
-Notebook.ipynb:     Jupyter notebook <br/>
-CodeStructure.md:   description of the code structure<br/>
-listings.csv:       file containing the dataset<br/>
+## Directory Structure
+```
+.
+├── README.md
+├── project_predicting_AirBnB_prices.md (the write-up of the project)
+├── Notebook.ipynb (the Jupyter notebook containing the code)
+├── Data (containing the AirBnB listings data in csv format)
+├── Figures (contains figures used in the write-up)
+├── Performances (contains figures used in the write-up)
+```
 
-Folders:<br/>
-Figures:            the folder containing figures used by the Writeup.md file<br/>
-Performances:       the folder containing figures used by the Writeup.md file<br/>
+## Requirements
+Python 3.6 <br/>
+scikit-learn<br/>
+Pandas<br/>
+Numpy<br/>
+seaborn<br/>
+scipy<br/>
+statsmodels
+
+## Instructions to re-run he code
+
+If you would like to run the notebook, first download the csv file (containing Airbnb listings.csv) and then set the variable "CSV_local_address" in the second cell of the notebook to the local addrress of the downloaded file.
