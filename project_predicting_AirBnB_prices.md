@@ -1,24 +1,30 @@
 ## Table of contents
-1. [Introduction](#Introduction)<br/>
-    1.1 [Background](#Background)<br/>
-    1.2 [Business problem statement](#Business%20problem%20statement)<br/>
-
-2. [Data preprocessing and Exploratory Data Analysis](#Data%20preprocessing%20and%20Exploratory%20Data%20Analysis)<br/>
-   1. [Feature scaling and engineering](#Feature%20scaling%20and%20engineering)<br/>
-   2. [Outliers and inter-correlation between features](#Outliers%20and%20inter-correlation%20between%20features)<br/>
-
-3. [Building the models](#Building%20the%20models)<br/>
-   1. [Feature selection](#Feature%20selection)<br/>
-   2. [Hyper-parameter tunning](#Hyper-parameter%20tunning)<br/>
-
-4. [Results](#Results)<br/>
+1. [Business Problem Statement](#Business%20problem%20statement)<br/>
+2. [Background](#Background)<br/>
+3. [Key Findings](#Key%20Findings)<br/>
+4. [Data Collection](#Data%20Collection)<br/>
+5. [Data Preprocessing](#Data%20Preprocessing)<br/>
+6. [Exploratory Data Analysis (EDA)](#Exploratory%20Data%20Analysis%20(EDA))<br/>
+   1. [Detecting Confounders](#Detecting%20Confounders)<br/>
+   2. [Distribution Analysis](#Distribution%20Analysis)<br/>
+   3. [Handling Outliers](#Handling%20Outliers)<br/>
+7. [Feature Engineering](#Feature%20Engineering)<br/>
+   1. [Feature Scaling/Encoding](#Feature%20Scaling/Encoding)<br/>
+   2. [Feature Creation](#Feature%20Creation)<br/>
+   3. [Feature Selection](#Feature%20Selection)<br/>
+8. [Model Building](#Model%20Building)<br/>
    1. [Linear Regression (LR)](#Linear%20Regression%20(LR))<br/>
-   2. [Tree-based regressors](#Tree-based%20regressors)<br/>
-      1. [Decision tree](#Decision%20tree)<br/>
-      2. [Random forest](#Random%20forest)<br/>
-      3. [Optimized gradient boosting](#Optimized%20gradient%20boosting)<br/>
-5. [Conclusions](#Conclusions)<br/>
-6. [Further Improvements and Future Work](#FutureWork)<br/>
+      1. [Estimating Coefficients](#Estimating%20Coefficients)<br/>
+      2. [OLS Assumptions](#OLS%20Assumptions)<br/>
+      3. [Meeting OLS Assumptions](#Meeting%20OLS%20Assumptions)<br/>
+      4. [Model Performance Evaluation](#Model%20Performance%20Evaluation)<br/>
+      5. [Feature Importance](#Feature%20Importance)<br/>
+   2. [Decision Tree (DT)](#Decision%20tree)<br/>
+   3. [Random Forest (RF)](#Random%20forest)<br/>
+   4. [Optimized Gradient Boosting](#Optimized%20gradient%20boosting)<br/>
+9.  [Conclusions](#Conclusions)<br/>
+10. [Further Code Improvements and Future Work](#Further%20Code%20Improvements%20and%20Future%20Work)<br/>
+11. [Further Readings](#Further%20Readings)<br/>
 
 ## Business Problem Statement
 
@@ -28,35 +34,55 @@ The real estate market in the city of Toronto is down, and a hedge fund is consi
 
 After the 2008 financial crisis, the United States government created a new program that allowed institutional investors such as hedge and private-equity funds to directly purchase large quantities of foreclosed homes. Between 2011 and 2017, they purchased over 200,000 of these.  One of the challenges of purchasing such large portfolios of new assets is determining the appropriate valuation. During a similar time frame, a new technology company called AirBnB created a new platform that allowed owners of individual housing units to rent out spare rooms or entire units to compete against hotels. As this platform grew, it generated new data that could be used to value the types of housing units purchased by the institutional investors. The key to such valuations is a model that could accurately predict the price of an overnight stay. This model could then be used to value these assets by a Discounted Cash Flow model. 
 
-## Key findings
+## Key Findings
+
+1) Analyzing data to draw business insights revealed that:
+   
+   1) On average, the rental price for an entire apartment is about 17 percent higher than of a hotel room, which is itself, again on average, about two times higher than the price of a private/shared room. 
+   
+   2) For customers interested in a shared/private room, the most important factor is the distance from the city center. For those interested in an entire apartment, that factor is the number of bathrooms. 
+
+2) OLS Linear regression is not appropriate for the date set in its current format because homoscedasticity and error normality assumptions are not satisfied. 
+
+3) Without sentiment analysis, the maximum achievable R2 score is less than 0.6.
 
 ## Data Collection
 
-Data was downloaded (on 24th of Sep. 2020) from "insideairbnb.com," which is a website that provides AirBnB data for different cities around the world in CSV format. The downloaded file contained information about property, neighbourhood, review scores, and etc and had more than twenty-thousand observations and one-hundred features. Most of these features, however, had to be dropped in the data preprocessing stage for reasons that are discussed next.
+Data was downloaded (on 24th of Sep. 2020) from "insideairbnb.com," which is a website that provides AirBnB data for different cities around the world in CSV format. The downloaded file contained information about property, neighbourhood, review scores, host, etc and had more than twenty-thousand observations and one-hundred features. Most of these features, however, had to be dropped in the data preprocessing stage for reasons that are discussed next.
 
 ## Data Preprocessing
 
-Some of the features in the downloaded file did not have any predictive value (for example, those containing URLs), while some others had numerous (more than ninety percent) missing values for the price column. There were also text features (for example, property description). These features can be expected to have some predictive value, but utilizing that value would require sentiment analysis, which is beyond the scope of this project. Therefore, text features were also dropped. I should emphasize that the downloaded file contained a 'square_feet' column as well, but more than ninety percent of its values were missing, so that column was also dropped. There were also features with the same value for all the rows, which also needed to be dropped.  
+Some of the features in the downloaded file did not have any predictive value (for example, those containing URLs), while some others had numerous (more than ninety percent) missing values for the price column. There were also text features (for example, property description). These features can be expected to have some predictive value, but utilizing that value would require sentiment analysis, which is beyond the scope of this project. Therefore, text features were also dropped. I should emphasize that the downloaded file contained a 'square_feet' column as well, but more than ninety percent of its values were missing, so that column was also dropped. There were also features with the same value for all the rows, which also needed to be dropped. Some columns contained symbols such as '$', ',' that needed to be removed and numerical columns were all converted to float32.  
 
-The cleaned dataset contained features displayed below. 
+Finally, the cleaned dataset contained features displayed below. <br/>
 
-<br/>
-!["df_info"](Figures/df_info.png)
-<br/>
-
-Finally, some of the columns had symbols such as '$', ',' that needed to be removed and numerical columns were all converted to float32. 
+!["df_info"](Figures/df_info.png)<br/>
 
 ## Exploratory Data Analysis (EDA)
 
-Exploratory Data Analysis (EDA) was performed on the cleaned and preprocessed dataset.
+The cleaned and preprocessed dataset was used to perform Exploratory Data Analysis (EDA) in the following stages. 
 
-to identify outliers and to inspect the inter-correlation between features.
+### Detecting Confounders
 
+Analysis of the inter-correlation (i.e., pairwise correlation) between the features showed that there is a strong correlation between features 'accommodates,' 'bedrooms' (with Pearson correlation coefficient 0.7) and between features 'accommodate,' 'bed' (with coefficient 0.79), which suggests that they contain redundant information. Among these features, only 'accommodates' is kept because that feature can be expected to have a more direct relationship with the target variable price than the two other features.
 
+### Distribution Analysis
 
-Which features contained outliers?
+Feature ‘accommodates’ had a multimodal right-skewed distribution with the first/second/third modes corresponding to 2/4/6. The first mode was about 2/4 times more pronounced than the second/third ones. The mean/median/standard deviation of the distribution were equal to 3.1/2/2.07.
 
-Analysis of the inter-correlation (i.e., pairwise correlation) between the features shows that there is a strong correlation between features 'accommodates,' 'bedrooms' (with Pearson correlation coefficient 0.7) and between features 'accommodate,' 'bed' (with coefficient 0.79), which suggests that they contain redundant information. Among these features, only 'accommodates' is kept because that feature can be expected to have a more direct relationship with the target variable price than the two other features.
+Among features 'bathrooms‘/'bedrooms‘/'beds‘, features 'bedrooms‘/'beds‘ had right-skewed unimodal distributions centered at 1, indicating that most properties are single bedroom with a single bed. The feature 'bathrooms’, however, had a bimodal distribution with the first/second modes at 1/2. The reason the latter distribution was bimodal, instead of unimodal, was that some properties had an additional shared bathroom (which made the value of the feature 1.5).  The mean/median/standard deviation of features  'bathrooms‘, 'bedrooms‘, and 'beds‘ were 1.26/1.0/0.57, 1.32/1.0/0.87, and 1.66/1.0/1.12, respectively. 
+
+Feature 'cleaning_fee’ had a right-skewed multimodal distribution with the first and second modes between $45-50 and 95-100, respectively. The mean/median/standard deviation of the distribution were $62.1/50 /51.9. 
+
+Feature ‘extra_people’ (representing the cost of an additional person per night) had a multimodal right-skewed distribution with the first/second/third modes at 0/20/10 and with the first mode about five times more pronounced than the second/third ones. The mean/median/standard deviation of the distribution were $3.52/0/124.88. Feature ‘host_total_listings_count’ had a unimodal right-skewed distribution with mean/median/standard deviation of 8.74/1/97.00. Such relatively high values for the mean and standard deviation (compared to the median) suggest the presence of outliers in these two features. For example, for the latter feature, those high values  were found to be due to a few observations having the unreasonably high value of 3038, which is likely to be due to some kind of error. 
+
+Feature 'maximum_nights‘ had a left-skewed bimodal distribution where the first/second modes were the overflow/underflow bins corresponding to greater/less than 365/30, with the first mode about three times more pronounced than the second one. This indicates that the majority of the properties allow effectively infinite number of overnight stays per booking. Among the remaining ones, the majority allow stays of up to a month. Feature 'minimum_nights‘ had a right-skewed bimodal distribution where the first and second modes were at 1 and at the overflow bin corresponding to greater than 7. 
+
+Finally, the target feature ‘price’ had a multimodal distribution with the first and second modes around $90-100 and $40-50, respectively. The mean/median/standard deviation of the feature were $ 143/100/280. Such relatively high values for the mean and standard deviation (compared to the median) were due to outlier properties that had overnight stay prices of above $900! The procedure to deal with the outliers is discussed next. 
+
+### Handling Outliers
+
+These outliers were identified using box-and-whisker diagrams and the Inter Quartile Range (IQR) method. In this method, points that fall beyond the outer upper fence, which is the Q3 + 3*IQR, are assumed to be outliers. The method is used instead of more complex methods, such as DBSCAN and Isolation Forests, due to its simplicity and instead of the Z-score method because the latter method assumes Gaussian distribution of the underlying data. The outliers were eliminated because they corresponded to less than fifteen percent of the observations, and I noticed that keeping them deteriorates the performance of the models. 
 
 ## Feature Engineering
 
@@ -74,11 +100,11 @@ The dataset contains latitude and longitude features. It can be reasonably expec
 
 For all the trained models, features selection is performed using scikit-learn's Recursive Feature Elimination (RFE) class. RFE first fits a given model using all the features and then removes the least important one. It then continues this process until the user-specified number of features, n_f, is reached. Each model is trained using different values of n_f to determine the minimum value at which the model reaches its maximum performance.
 
-## Model Building and Results
+## Model Building
 
 ### Linear Regression (LR)
 
-#### Estimating the Coefficients
+#### Estimating Coefficients
 
 The first trained model is a Linear Regression (LR) with coefficients estimated using Ordinary Least Squares (OLS). OLS LR is intended to be the baseline model for evaluating the more robust tree-based algorithms, therefore more advanced regression methods such as Elastic-Net or Least Angle Regression were not explored.
 
@@ -138,19 +164,19 @@ It can be seen that including more than six features has virtually no impact on 
 
 #### Feature Importance
 
-Feature Importance (FI) measures the relative importance of the feature in predicting the target variable (i.e., how useful a feature is at predicting the target variable). The importance of FI measures is in that they allow gaining insights into the data and model, they can allow one to remove features that are not important and focus only on those that are. This may introduce opportunities to improve the model. 
+Feature Importance (FI) measures the relative importance of a feature in predicting the target variable (i.e., how useful a feature is at predicting the target variable). The importance of measuring FI is that it allows gaining insights into the data and model; in addition, is can allow one to remove features that are not important and focus only on those that are. This may introduce opportunities to improve the model. 
 
-In an LR model, FI can be measured by the estimated value of the feature coefficient. In this project, analyzing those values showed that the four most important features, in descending order, are 'bathrooms', 'cleaning_fee', 'accommodates', and 'distance'. The importance of the remaining features were more than ten times lower than of the most importance feature 'bathrooms'.
+In an LR model, FI can be measured by the estimated value of feature coefficients. In this project, analyzing those values showed that the four most important features, in descending order, are 'bathrooms', 'cleaning_fee', 'accommodates', and 'distance'. The importance of the remaining features were more than ten times lower than of the most importance feature 'bathrooms'.
 
-### Decision tree
+### Decision Tree
 
 The first tree-based regressor is the decision tree. In training a regression tree, similar to a classification tree, the tree is grown by finding the split point (split feature and split value) such that the information gain obtained by the split is maximized. A good split will make sure that observations with similar values of the dependent variable end up in the same leave (i.e., nodes become more pure as the value of inter-node variance decreases with the splits). Information gain is the difference between impurity of the parent node and the weighted sum of the impurity of the child nodes - the lower the impurity of the child nodes, the larger the information gain. For regression trees, impurity can be measured using MSE. Note that in regression trees, the predicted value for the samples within a node is the mean of the samples within that node. 
 
-#### Hyper-parameter Tunning and Performances
+#### Hyper-parameter Tunning and Performance Evaluation
 
-The hyper-parameters of the tree-based models are tunned using scikit-learn's GridSearchCV. The class takes a model, a hyper-parameter grid, and a cross-validation strategy (for example, K-fold). It then splits the data into K-folds and, for each point in the grid, calculates the test score for every split. The grid point with the highest average test score (i.e., test score averaged over all the splits) determines the values of the tunned hyper-parameters. GridSearchCV was used instead of RandomizedSearchCV because I noticed that the number of hyper-parameters that had any noticeable impact on the performance is relatively low, so performing an exhaustive search was still possible.
+One of the main disadvantages of DTs is that they are prone to overfitting and, therefore, should not be used with default hyper-parameters. Hyper-parameter tunning was performed using scikit-learn's GridSearchCV. The class takes a model, a hyper-parameter grid, and a cross-validation strategy (for example, K-fold). It then splits the data into K-folds and, for each point in the grid, calculates the test score for every split. The grid point with the highest average test score (i.e., test score averaged over all the splits) determines the values of the tunned hyper-parameters. GridSearchCV was used instead of RandomizedSearchCV because I noticed that the number of hyper-parameters that had any noticeable impact on the performance is relatively low, so performing an exhaustive search was still possible.
 
-One of the main disadvantages of DTs is that they are prone to overfitting, and, therefore, they should not be used with default hyper-parameters. After performing numerous hyper-parameter tunning trials (with cross-validation), it was found that the hyper-parameter whose tunning has a significant impact on the scores is the maximum depth. Also, in tunning, the search space for a parameter contained at least three values and, through trial and error, I ensured that the space is wide enough such that the final tunned value is lower/higher than (not equal to) the upper/lower bounds of the search space. Including all the features, the tunned decision tree has the following performance measures
+After performing numerous hyper-parameter tunning trials (with cross-validation), it was found that the hyper-parameter whose tunning has a significant impact on the scores is the maximum depth. Also, in tunning, the search space for a parameter contained at least three values and, through trial and error, I ensured that the space is wide enough such that the final tunned value is lower/higher than (not equal to) the upper/lower bounds of the search space. Including all the features, the tunned decision tree has the following performance measures
 
 !["DTPerformance"](Performances/DTPerformances.png)<br/>
 
@@ -166,13 +192,15 @@ To understand the importance of different features and what dictates the prices 
 
 Also note how the MSE of each node is higher than the weighted sum of the MSE of its child nodes. In other words, with each split, information is gained. For example, splitting the root node results in an information gain of 0.033 - ((4297/11370)*0.011 + (7051/11370)*0.032) = 0.0090. 
 
+Measuring FI using the 'feature_importances_' attribute provided by scikit-learn suggested that the five most important features, in descending order, are 'room_type', 'bathrooms', 'accommodates', 'distance', and 'cleaning_fee'. The remaining features were at least twenty times less important than 'room_type'. Recall that for the LR model, the important features turned out to be, again in descending order, 'bathrooms', 'cleaning_fee', 'accommodates', and 'distance'. Therefore, it can be stated that LR fails to give the appropriate importance level to the categorical variable 'room_type', and that may be due to the violation in the homoscedasticity assumption. Again, violation of that assumption will result in LR not being the best linear model (although it will still be unbiased).
 
+Before ending the discussion on DT, two more points should be emphasized. First, one should be cautious in using scikit-learn's 'feature_importances_'. The reason is that, in the presence of high-cardinality categorical variables, it will inflate the  importance of continuous features; the present data set was not high-cardinality, so 'feature_importances_' can be used. Second, there is a more advanced method to measure FI known as Permutation Feature Importance. In this method, to measure FI for a feature, the relationship between the feature and target is broken by fitting the model after randomly shuffling the feature. The amount of decrease in the model score due to shuffling determines FI. The main advantage of the method is that it is independent from the model used. Further exploring this method is beyond the scope of the current project.
 
 ### Random Forest
 
 One of the disadvantages of DTs is that they can be unstable: sensitive to small variations in the data. Random Forests limit this instability by averaging predictions over many trees. 
 
-#### Hyper-parameter Tunning and Performances
+#### Hyper-parameter Tunning and Performance Evaluation
 
 In tunning its hyper-parameters, I noticed that the best R_squared score is achieved when the trees' maximum depth is unlimited, and a very high number of estimators, n_estimator, is used. In fact, in the tunning trials I performed, the final tunned value of n_estimator was always the upper bound of my search space. Nonetheless, n_estimator had to be limited (to less than 200) due to the limitations in available computational resources. Including all the features, a tunned random forest gave the following performance measures
 
@@ -182,26 +210,27 @@ As shown below, the R-squared test score of RF increases smoothly as the number 
 
 !["NumFeaturesRF"](Figures/NumEstimatorsRF.png)<br/>
 
-#### Feature Importance
-
-
 ### Optimized Gradient Boosting
 
 The two gradient boosting methods used in this project are Xtreme Gradient Boosting (XGBoost) and Light Gradient Boosting (LGBoost). Boosting refers to the idea of combining sequentially multiple weak learners (a learner that has a performance slightly better than random chance) into a strong one, where each weak learner is trying to correct its predecessor. Gradient boosting methods are those that recast boosting into a numerical optimization problem and use methods such as gradient descent (hence the name gradient boosting) to minimize a loss function. Each predictor tries to minimize the residual error made by its previous predictor. The final prediction is simply the sum of the predictions of all the individual learners. XGBoost and lightGBM are examples of the gradient boosting methods for decision trees. They both grow the tree leaf-wise rather than level-wise, and their difference is in the specifics of optimization. 
 
-For the current dataset, LGBoost and XGBoost gave R-squared test scores that were similar to RF. However, their computational times were about 10 and 2 times lower than the RF.
+For the current dataset, LGBoost and XGBoost gave R-squared test scores that were similar to RF, but they were, respectively, 10 and 2 times faster to train than the RF. 
+
+Finally, a Feature Importance analysis similar to the one performed for LR and RT can be performed for RF and Gradient Boosting methods using scikit-learn's SelectFromModel class, which selects features based on importance weights. The result of such analysis can be used for feature selection. Performing this task is left as a future work.
 
 ## Conclusions
 
-To help a hedge fund that is considering purchasing and then renting a collection of housing units in the city of Toronto evaluate the value of the properties as accurately as possible, I built different models that predict the price of overnight AirBnB stays. These include: Linear Regression, Decision Tree, Random Forest, XGBoost, and LGBoost. It was found that without using features that require sentiment analysis, the highest achievable R-squared test score is about 0.53 and is obtained using either of the RF, XGBoost, or LGBoost ensemble methods, with the latter method being the fastest one to train. It was also found that the most important feature is the room_type (shared/private room or entire home/apt). The second most important feature is the distance to the city center for customers interested in shared/private rooms and the number of bathrooms for the ones interested in an entire home/apt. Although sixteen features were available in the dataset, including features other than 'room_type,' 'distance,' 'bathrooms,' 'accommodates,' and 'cleaning_fee' did not improve the scores. 
+To help a hedge fund that is considering purchasing and then renting a collection of housing units in the city of Toronto evaluate the value of the properties as accurately as possible, I built different models that predict the price of overnight AirBnB stays. These include: Linear Regression, Decision Tree, Random Forest, XGBoost, and LGBoost. It was found that without using features that require sentiment analysis, the highest achievable R-squared test score is about 0.53 and is obtained using either of the RF, XGBoost, or LGBoost ensemble methods, with the latter two methods being about 2 and 10 times faster to train than RF. 
+
+Analysis of the data offers a hedge fund additional insight that can be used in deciding what kind of investment should be made to take full advantage of AirBnB. For example, it shows that, on average, rental price for an entire apartment is about 17 percent higher than of a hotel room, which is itself, again on average, about two times higher than the price of a private/shared room. Furthermore, for the decision tree model, the analysis of feature importance reveals that for customers who are interested in a shared/private room, the most important factor is how far the room is located from the city center. For customers who are interested in an entire apartment, the most important point is the number of bathrooms. 
 
 It can be expected to further improve the highest R-squared test score achieved here by including features in the original dataset that require sentiment analysis. However, that improvement will still be limited mainly because of the nature of Airbnb pricing. The prices on Airbnb are host listings and do not necessarily indicate that they are accepted by the buyers. In other words, they are not wetted prices; therefore, they can be artificially high. Such artifacts in the dataset will make it practically impossible to achieve highly accurate price predictions regardless of the methods used. Nonetheless, the models trained here can still be used to provide supplementary information for financial decision-makers.
 
-## Future Work
+## Further Code Improvements and Future Work
 
-Code needs to be better structured: 
+This project was my first one on regression analysis and started in mid-September 2020 and continued for about six weeks. After finishing finishing the current write-up, I noticed that the initial version of the can be better structured. Such structure and stylish improvements will be made in future versions to have a more elegant code. 
 
-Detailed analysis of feature importance has now revealed. One may now be able to further improve the performances by removing features that are not important and focusing only on those that are. 
+As mentioned earlier, the original data set contains text features, such as description of the property and amenities, that can be expected to have some predictive value. Performing sentiment analysis to utilize that value is a possible future work.  
 
 ### Further Readings 
 XGBoost: <br/>
