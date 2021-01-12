@@ -1,5 +1,5 @@
 ## Table of contents
-1. [Business Problem Statement](#Business%20problem%20statement)<br/>
+1. [Business Problem Statement](#Business-Problem-Statement)<br/>
 2. [Background](#Background)<br/>
 3. [Key Findings](#Key%20Findings)<br/>
 4. [Data Collection](#Data%20Collection)<br/>
