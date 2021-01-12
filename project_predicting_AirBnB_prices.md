@@ -1,30 +1,30 @@
 ## Table of contents
 1. [Business Problem Statement](#Business-Problem-Statement)<br/>
 2. [Background](#Background)<br/>
-3. [Key Findings](#Key%20Findings)<br/>
-4. [Data Collection](#Data%20Collection)<br/>
-5. [Data Preprocessing](#Data%20Preprocessing)<br/>
-6. [Exploratory Data Analysis (EDA)](#Exploratory%20Data%20Analysis%20(EDA))<br/>
-   1. [Detecting Confounders](#Detecting%20Confounders)<br/>
-   2. [Distribution Analysis](#Distribution%20Analysis)<br/>
-   3. [Handling Outliers](#Handling%20Outliers)<br/>
-7. [Feature Engineering](#Feature%20Engineering)<br/>
-   1. [Feature Scaling/Encoding](#Feature%20Scaling/Encoding)<br/>
-   2. [Feature Creation](#Feature%20Creation)<br/>
-   3. [Feature Selection](#Feature%20Selection)<br/>
-8. [Model Building](#Model%20Building)<br/>
-   1. [Linear Regression (LR)](#Linear%20Regression%20(LR))<br/>
-      1. [Estimating Coefficients](#Estimating%20Coefficients)<br/>
-      2. [OLS Assumptions](#OLS%20Assumptions)<br/>
-      3. [Meeting OLS Assumptions](#Meeting%20OLS%20Assumptions)<br/>
-      4. [Model Performance Evaluation](#Model%20Performance%20Evaluation)<br/>
-      5. [Feature Importance](#Feature%20Importance)<br/>
-   2. [Decision Tree (DT)](#Decision%20tree)<br/>
-   3. [Random Forest (RF)](#Random%20forest)<br/>
-   4. [Optimized Gradient Boosting](#Optimized%20gradient%20boosting)<br/>
+3. [Key Findings](#Key-Findings)<br/>
+4. [Data Collection](#Data-Collection)<br/>
+5. [Data Preprocessing](#Data-Preprocessing)<br/>
+6. [Exploratory Data Analysis (EDA)](#Exploratory-Data-Analysis-(EDA))<br/>
+   1. [Detecting Confounders](#Detecting-Confounders)<br/>
+   2. [Distribution Analysis](#Distribution-Analysis)<br/>
+   3. [Handling Outliers](#Handling-Outliers)<br/>
+7. [Feature Engineering](#Feature-Engineering)<br/>
+   1. [Feature Scaling/Encoding](#Feature-Scaling/Encoding)<br/>
+   2. [Feature Creation](#Feature-Creation)<br/>
+   3. [Feature Selection](#Feature-Selection)<br/>
+8. [Model Building](#Model-Building)<br/>
+   1. [Linear Regression (LR)](#Linear-Regression-(LR))<br/>
+      1. [Estimating Coefficients](#Estimating-Coefficients)<br/>
+      2. [OLS Assumptions](#OLS-Assumptions)<br/>
+      3. [Meeting OLS Assumptions](#Meeting-OLS-Assumptions)<br/>
+      4. [Model Performance Evaluation](#Model-Performance-Evaluation)<br/>
+      5. [Feature Importance](#Feature-Importance)<br/>
+   2. [Decision Tree (DT)](#Decision-tree)<br/>
+   3. [Random Forest (RF)](#Random-forest)<br/>
+   4. [Optimized Gradient Boosting](#Optimized-gradient-boosting)<br/>
 9.  [Conclusions](#Conclusions)<br/>
-10. [Further Code Improvements and Future Work](#Further%20Code%20Improvements%20and%20Future%20Work)<br/>
-11. [Further Readings](#Further%20Readings)<br/>
+10. [Further Code Improvements and Future Work](#Further-Code-Improvements-and-Future%20Work)<br/>
+11. [Further Readings](#Further-Readings)<br/>
 
 ## Business Problem Statement
 
