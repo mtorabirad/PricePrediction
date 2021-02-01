@@ -1,0 +1,6 @@
+RMSE_train: 0.1333
+r2_train: 0.4572
+RMSE_test: 0.1287
+r2_test: 0.4705
+RMSE_holdout: 0.1342
+r2_holdout: 0.4476

@@ -28,12 +28,14 @@
 
 ## Business Problem Statement
 
-The real estate market in the city of Toronto is down, and a hedge fund is considering purchasing and then renting housing units to make a profit in the short term while waiting for the market to bounce back before selling the units. I am tasked with determining: 1) how accurate can the price of overnight stays at AirBnb properties be predicted, and 2) what dictates the price? Property type? The number of people it can accommodate? Distance from the center? Review score? Cancellation policy?"
+The real estate market in the city of Toronto is down, and a hedge fund is considering purchasing and then renting housing units to make a profit in the short term while waiting for the market to bounce back before selling the units. I am tasked with answering the following questions: 
+1) How accurate can the price of overnight stays at Airbnb properties be predicted?
+2) What dictates the price? Property type? The number of people it can accommodate? Distance from the center? Review score? Cancellation policy?
 
 
 ## Background
 
-After the 2008 financial crisis, the United States government created a new program that allowed institutional investors such as hedge and private-equity funds to directly purchase large quantities of foreclosed homes. Between 2011 and 2017, they purchased over 200,000 of these.  One of the challenges of purchasing such large portfolios of new assets is determining the appropriate valuation. During a similar time frame, a new technology company called AirBnB created a new platform that allowed owners of individual housing units to rent out spare rooms or entire units to compete against hotels. As this platform grew, it generated new data that could be used to value the types of housing units purchased by the institutional investors. The key to such valuations is a model that could accurately predict the price of an overnight stay. This model could then be used to value these assets by a Discounted Cash Flow model. 
+After the 2008 financial crisis, the United States government created a new program that allowed institutional investors such as hedge and private-equity funds to directly purchase large quantities of foreclosed homes. Between 2011 and 2017, they purchased over 200,000 of these.  One of the challenges of purchasing such large portfolios of new assets is determining the appropriate valuation. During a similar time frame, a new technology company called Airbnb created a new platform that allowed owners of individual housing units to rent out spare rooms or entire units to compete against hotels. As this platform grew, it generated new data that could be used to value the types of housing units purchased by the institutional investors. The key to such valuations is a model that could accurately predict the price of an overnight stay. This model could then be used to value these assets by a Discounted Cash Flow model. 
 
 ## Key Findings
 
@@ -42,6 +44,8 @@ After the 2008 financial crisis, the United States government created a new prog
    1) On average, the rental price for an entire apartment is about 17 percent higher than of a hotel room, which is itself, again on average, about two times higher than the price of a private/shared room. 
    
    2) For customers interested in a shared/private room, the most important factor is the distance from the city center. For those interested in an entire apartment, that factor is the number of bathrooms. 
+   
+   3) About 60 percent of the listed properties accommodate 1 or 2 people, which means they are essentially competing with hotels. 
 
 2) OLS Linear regression is not appropriate for the date set in its current format because homoscedasticity and error normality assumptions are not satisfied. 
 
@@ -49,7 +53,7 @@ After the 2008 financial crisis, the United States government created a new prog
 
 ## Data Collection
 
-Data was downloaded (on 24th of Sep. 2020) from "insideairbnb.com," which is a website that provides AirBnB data for different cities around the world in CSV format. The downloaded file contained information about property, neighbourhood, review scores, host, etc and had more than twenty-thousand observations and one-hundred features. Most of these features, however, had to be dropped in the data preprocessing stage for reasons that are discussed next.
+Data was downloaded (on 24th of Sep. 2020) from "insideairbnb.com," which is a website that provides Airbnb data for different cities around the world in CSV format. The downloaded file contained information about property, neighbourhood, review scores, host, etc and had more than twenty-thousand observations and one-hundred features. Most of these features, however, had to be dropped in the data preprocessing stage for reasons that are discussed next.
 
 ## Data Preprocessing
 
@@ -127,11 +131,11 @@ To check for the absence of auto-correlation, the Durbin-Watson test was perform
 
 ##### Meeting the Homoscedasticity Assumption
 
-To check whether the errors are homoskedastic or not, I plot the errors against the predicted values as shown below
+To check whether the errors are homoskedastic or not, the errors were plotted against the predicted values as shown below
 
 !["Homoskedasticity"](Figures/LinearRegressionHomoskedasticity.png)<br/>
 
-It is evident that the errors are not homoskedastic because if they were, different points would have had a random uniform distribution against the target value. Of course, there are more formal ways of checking for homoskedasticity, such as performing Breush-Pagan or Goldfeld-Quandt tests, but those methods were not pursued here because the above figure already clearly reveals that the errors are not homoskedastic.
+In the above plot, the horizontal and vertical axes represent the scaled prices and residuals, respectively. It is evident that the errors are not homoskedastic because if they were, different points would have had a random uniform distribution against the target value. Of course, there are more formal ways of checking for homoskedasticity, such as performing Breush-Pagan or Goldfeld-Quandt tests, but those methods were not pursued here because the above figure already clearly reveals that the errors are not homoskedastic.
 
 ##### Meeting the Normality Assumption
 
@@ -167,7 +171,7 @@ It can be seen that including more than six features has virtually no impact on 
 
 Feature Importance (FI) measures the relative importance of a feature in predicting the target variable (i.e., how useful a feature is at predicting the target variable). The importance of measuring FI is that it allows gaining insights into the data and model; in addition, is can allow one to remove features that are not important and focus only on those that are. This may introduce opportunities to improve the model. 
 
-In an LR model, FI can be measured by the estimated value of feature coefficients. In this project, analyzing those values showed that the four most important features, in descending order, are 'bathrooms', 'cleaning_fee', 'accommodates', and 'distance'. The importance of the remaining features were more than ten times lower than of the most importance feature 'bathrooms'.
+In an LR model, FI can be measured by the estimated value of feature coefficients. In this project, analyzing those values showed that the four most important features, in descending order, are 'bathrooms', 'cleaning_fee', 'accommodates', and 'distance'. The importance of the remaining features were more than ten times lower than of the most important feature (i.e., 'bathrooms').
 
 ### Decision Tree
 
@@ -221,7 +225,7 @@ Finally, a Feature Importance analysis similar to the one performed for LR and R
 
 ## Conclusions
 
-To help a hedge fund that is considering purchasing and then renting a collection of housing units in the city of Toronto evaluate the value of the properties as accurately as possible, I built different models that predict the price of overnight AirBnB stays. These include: Linear Regression, Decision Tree, Random Forest, XGBoost, and LGBoost. It was found that without using features that require sentiment analysis, the highest achievable R-squared test score is about 0.53 and is obtained using either of the RF, XGBoost, or LGBoost ensemble methods, with the latter two methods being about 2 and 10 times faster to train than RF. 
+To help a hedge fund that is considering purchasing and then renting a collection of housing units in the city of Toronto evaluate the value of the properties as accurately as possible, I built different models that predict the price of overnight Airbnb stays. These include: Linear Regression, Decision Tree, Random Forest, XGBoost, and LGBoost. It was found that without using features that require sentiment analysis, the highest achievable R-squared test score is about 0.53 and is obtained using either of the RF, XGBoost, or LGBoost ensemble methods, with the latter two methods being about 2 and 10 times faster to train than RF. 
 
 Analysis of the data offers a hedge fund additional insight that can be used in deciding what kind of investment should be made to take full advantage of AirBnB. For example, it shows that, on average, rental price for an entire apartment is about 17 percent higher than of a hotel room, which is itself, again on average, about two times higher than the price of a private/shared room. Furthermore, for the decision tree model, the analysis of feature importance reveals that for customers who are interested in a shared/private room, the most important factor is how far the room is located from the city center. For customers who are interested in an entire apartment, the most important point is the number of bathrooms. 
 
