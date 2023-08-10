@@ -231,12 +231,6 @@ Analysis of the data offers a hedge fund additional insight that can be used in 
 
 It can be expected to further improve the highest R-squared test score achieved here by including features in the original dataset that require sentiment analysis. However, that improvement will still be limited mainly because of the nature of Airbnb pricing. The prices on Airbnb are host listings and do not necessarily indicate that they are accepted by the buyers. In other words, they are not wetted prices; therefore, they can be artificially high. Such artifacts in the dataset will make it practically impossible to achieve highly accurate price predictions regardless of the methods used. Nonetheless, the models trained here can still be used to provide supplementary information for financial decision-makers.
 
-## Further Code Improvements and Future Work
-
-This project was my first one on regression analysis and started in mid-September 2020 and continued for about six weeks. After finishing the current write-up, I noticed that the initial version of can be better structured. Such structure and stylish improvements will be made in future versions to have a more elegant code. 
-
-As mentioned earlier, the original data set contains text features, such as the description of the property and amenities, that can be expected to have some predictive value. Performing sentiment analysis to utilize that value is a possible future work.  
-
 ### Further Readings 
 XGBoost: <br/>
     Original paper: https://arxiv.org/pdf/1603.02754.pdf<br/>
